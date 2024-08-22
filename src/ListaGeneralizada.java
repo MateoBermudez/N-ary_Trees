@@ -234,4 +234,54 @@ public class ListaGeneralizada {
         c = Character.toLowerCase(c);
         return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
     }
+
+    public boolean buscarDato (char dato, Nodo raiz) {
+        boolean encontrado = false;
+        while (raiz != null && !encontrado) {
+            if (dato == raiz.getDato()) {
+                encontrado = true;
+                System.out.println("El dato fue encontrado");
+            } else {
+                encontrado = buscarDato(dato, raiz.getLs());
+            }
+            if (!encontrado) {
+                raiz = raiz.getLiga();
+            }
+        }
+        return encontrado;
+    }
+
+    public Nodo buscarNodo (char dato, Nodo raiz) {
+        Nodo encontrado = null;
+        while (raiz != null && encontrado == null) {
+            if (dato == raiz.getDato()) {
+                encontrado = raiz;
+            } else {
+                encontrado = buscarNodo(dato, raiz.getLs());
+            }
+            if (encontrado == null) {
+                raiz = raiz.getLiga();
+            }
+        }
+        return encontrado;
+    }
+
+    public int alturaDato (Nodo raiz, int altura) {
+        ArrayList<Integer> array = new ArrayList<>();
+        if (nHijos(raiz) > 0) {
+            while (raiz != null) {
+                altura = alturaDato(raiz.getLs(), altura);
+                raiz = raiz.getLiga();
+                array.add(altura+1);
+            }
+            for (int i = 0; i < array.size(); i++) {
+                if (array.get(i) > altura){
+                    altura = array.get(i);
+                }
+            }
+        } else {
+            return 1;
+        }
+        return altura;
+    }
 }
