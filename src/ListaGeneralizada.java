@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ListaGeneralizada {
     Nodo raiz;
 
@@ -185,5 +187,51 @@ public class ListaGeneralizada {
 
         }
         return eliminado;
+    }
+
+    public ArrayList<Character> reto1(Nodo raiz, ArrayList<Character> lista){
+        Nodo aux = raiz;
+        while (raiz != null){
+            if (!lista.contains(raiz.getDato())){
+                if (lista.size() % 3 == 0){
+                    lista.add(raiz.getDato());
+                    raiz = this.raiz;
+                    aux = this.raiz;
+                }
+                else if (esVocal(lista.get(lista.size()-1))){
+                    if (!esVocal(raiz.getDato())){
+                        lista.add(raiz.getDato());
+                        raiz = this.raiz;
+                        aux = this.raiz;
+                    }
+                }
+                else if (!esVocal(lista.get(lista.size()-1))){
+                    if (esVocal(raiz.getDato())) {
+                        lista.add(raiz.getDato());
+                        raiz = this.raiz;
+                        aux = this.raiz;
+                    }
+                }
+                if (raiz != this.raiz){
+                    raiz = raiz.getLiga();
+                }
+            }
+            else {
+                raiz = raiz.getLiga();
+            }
+        }
+        raiz = aux;
+        while (raiz != null){
+            if (raiz.getLs() != null){
+                lista = reto1(raiz.getLs(), lista);
+            }
+            raiz = raiz.getLiga();
+        }
+        return lista;
+    }
+
+    public boolean esVocal(char c) {
+        c = Character.toLowerCase(c);
+        return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u');
     }
 }
