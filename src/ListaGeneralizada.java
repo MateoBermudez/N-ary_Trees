@@ -10,7 +10,6 @@ public class ListaGeneralizada {
         }
     }
 
-    //Validar para inputs invalidos.
     private void crearArbol(String arbol, Nodo padre) {
         int contador = 1, contadorHijo = 0;
         char[] array = arbol.toCharArray();
@@ -283,5 +282,55 @@ public class ListaGeneralizada {
             return 1;
         }
         return altura;
+    }
+
+    public int nHijos(Nodo raiz) {
+        int cont = 0;
+        while (raiz != null) {
+            cont++;
+            raiz = raiz.getLiga();
+        }
+        return cont;
+    }
+
+    public void MostrarHojas(Nodo R) {
+        if (R == null) return;
+        Nodo p = R;
+        while (p != null) {
+            if (p.getLs() == null) {
+                System.out.print(p.getDato() + " ");
+            }
+            else {
+                MostrarHojas(p.getLs().getLiga());
+            }
+            p = p.getLiga();
+        }
+    }
+
+    public void MostrarPadres(Nodo R) {
+        if (R == null) return;
+        if (R == this.raiz) System.out.print(R.getDato() + " ");
+        Nodo p = R;
+        while (p != null) {
+            if (p.getLs() != null) {
+                System.out.print(p.getDato() + " ");
+            }
+            MostrarPadres(p.getLs());
+            p = p.getLiga();
+        }
+    }
+
+    public void NivelDato(Nodo R, char dato, int nivel) {
+        if (R == null) return;
+        Nodo p = R;
+        while (p != null) {
+            if (p.getDato() == dato) {
+                System.out.print(p.getDato() + " Nivel = " + nivel + "\n");
+            }
+            else {
+                NivelDato(p.getLs(), dato, nivel+1);
+            }
+            p = p.getLiga();
+        }
     }
 }
