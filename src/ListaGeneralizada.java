@@ -239,7 +239,6 @@ public class ListaGeneralizada {
         while (raiz != null && !encontrado) {
             if (dato == raiz.getDato()) {
                 encontrado = true;
-                System.out.println("El dato fue encontrado");
             } else {
                 encontrado = buscarDato(dato, raiz.getLs());
             }
@@ -267,31 +266,24 @@ public class ListaGeneralizada {
 
     public int alturaDato (Nodo raiz, int altura) {
         ArrayList<Integer> array = new ArrayList<>();
-        if (nHijos(raiz) > 0) {
+        if (raiz == null){
+            return 1;
+        } else {
+            raiz = raiz.getLiga();
             while (raiz != null) {
                 altura = alturaDato(raiz.getLs(), altura);
+                array.add(altura);
                 raiz = raiz.getLiga();
-                array.add(altura+1);
-            }
+        }
             for (int i = 0; i < array.size(); i++) {
-                if (array.get(i) > altura){
+                if (array.get(i) > altura) {
                     altura = array.get(i);
                 }
             }
-        } else {
-            return 1;
         }
-        return altura;
+        return altura+1;
     }
 
-    public int nHijos(Nodo raiz) {
-        int cont = 0;
-        while (raiz != null) {
-            cont++;
-            raiz = raiz.getLiga();
-        }
-        return cont;
-    }
 
     public void MostrarHojas(Nodo R) {
         if (R == null) return;

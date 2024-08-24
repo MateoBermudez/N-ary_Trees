@@ -16,6 +16,11 @@ public class Main {
         arbol = ValidarArbol(arbol);
         arbol = ValidarInputArbol(arbol);
         lista = new ListaGeneralizada(arbol.charAt(0), arbol);
+        Nodo aux = lista.buscarNodo('T', lista.raiz);
+        if (aux != lista.raiz) {
+            aux = aux.getLs();
+        }
+        System.out.println(lista.alturaDato(aux, 0));
         lista.recorrido(lista.raiz);
         System.out.print("\n");
         lista.imprimirListas(lista.raiz);
@@ -37,7 +42,6 @@ public class Main {
         System.out.print("\n");
         lista.imprimirListas(lista.raiz);
         System.out.print("\n");
-
     }
 
     //Este metodo unicamente valida que tenga letras mayusculas y parentesis
