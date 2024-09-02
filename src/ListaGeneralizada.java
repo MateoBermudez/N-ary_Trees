@@ -162,7 +162,7 @@ public class ListaGeneralizada {
             if (sig.getDato() == dato) {
                 if (sig.getLs() != null) {
                     if (raiz.getLs() != null) {
-                        insertarFinal(raiz.getLs(), sig.getLs());
+                        insertarFinal(sig.getLs().getLiga(), raiz);
                     }
                     else {
                         raiz.setLs(sig.getLs());
@@ -274,7 +274,7 @@ public class ListaGeneralizada {
                 altura = alturaDato(raiz.getLs(), altura);
                 array.add(altura);
                 raiz = raiz.getLiga();
-        }
+            }
             for (int i = 0; i < array.size(); i++) {
                 if (array.get(i) > altura) {
                     altura = array.get(i);
@@ -317,7 +317,7 @@ public class ListaGeneralizada {
         Nodo p = R;
         while (p != null) {
             if (p.getDato() == dato) {
-                System.out.print(p.getDato() + " Nivel = " + nivel + "\n");
+                System.out.print(p.getDato() + " Nivel = " + (nivel+1) + "\n");
             }
             else {
                 NivelDato(p.getLs(), dato, nivel+1);
@@ -325,4 +325,67 @@ public class ListaGeneralizada {
             p = p.getLiga();
         }
     }
+
+    public void imprimirPrimos(Nodo R, String hermanos, int nivel, String primos) {
+        Nodo p = R;
+        while (p != null) {
+            if (!hermanos.contains("" + p.getDato()) && getNivel(this.raiz, p.getDato(), 1)+1 == nivel
+                    && !primos.contains("" + p.getDato())) {
+                System.out.print(p.getDato() + " ");
+                primos+=p.getDato();
+            }
+            p = p.getLiga();
+        }
+        p = R;
+        while (p != null) {
+            if (p.getLs() != null) {
+                imprimirPrimos(p.getLs(), hermanos, nivel, primos);
+            }
+            p = p.getLiga();
+        }
+    }
+
+
+    public Nodo buscarPadre (char dato, Nodo R) {
+        Nodo p = R;
+        Nodo padre = R;
+        Nodo encontrado = null;
+        while (p != null) {
+            if (p.getDato() == dato){
+                return padre;
+            }
+            p = p.getLiga();
+        }
+        p = R;
+        while (p != null) {
+            if (p.getLs() != null) {
+                encontrado = buscarPadre(dato, p.getLs());
+            }
+            if (encontrado != null) {
+                return encontrado;
+            }
+            p = p.getLiga();
+        }
+        return encontrado;
+    }
+
+    public int getNivel(Nodo R, char dato, int nivel) {
+        if (dato == this.raiz.getDato()) return 0;
+        int nivelEncontrado = -1;
+        if (R == null) return -1;
+        Nodo p = R;
+        while (p != null && nivelEncontrado == -1) {
+            if (p.getDato() == dato) {
+                return nivel;
+            }
+            else {
+                nivelEncontrado = getNivel(p.getLs(), dato, nivel+1);
+            }
+            if (nivelEncontrado == -1) {
+                p = p.getLiga();
+            }
+        }
+        return (nivelEncontrado != -1) ? nivelEncontrado : -1;
+    }
+
 }
